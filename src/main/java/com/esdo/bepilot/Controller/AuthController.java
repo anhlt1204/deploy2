@@ -38,8 +38,7 @@ public class AuthController {
     @PostMapping(value = "/forgot")
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> forgotPass(@RequestBody ForgotPasswordRequest request) {
-        authService.sendOTP(request);
-        return ResponseEntity.ok("Thành công");
+        return ResponseEntity.ok(authService.sendOTP(request));
     }
 
     @PatchMapping(value = "/reset/{id}")
