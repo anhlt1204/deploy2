@@ -38,6 +38,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("admin")
+                .password(passwordEncoder().encode("admin"))
+                .authorities("ADMIN");
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
@@ -52,7 +55,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
     public void configure(HttpSecurity http) throws Exception {
         http.cors().configurationSource(request -> corsConfiguration()).and().csrf().disable()
                 .authorizeRequests().antMatchers("/employees/**").hasRole("ADMIN")
-                .antMatchers("/login", "/register", "/swagger-ui.html", "/v2/api-docs", "/image/**").permitAll()
+                .antMatchers("/login", "/register", "/forgot", "/reset/**", "/check", "/swagger-ui/**",
+                        "/swagger-ui.html", "/v2/api-docs", "/image/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

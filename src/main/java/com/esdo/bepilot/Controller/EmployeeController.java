@@ -4,6 +4,8 @@ import com.esdo.bepilot.Model.Request.EmployeeRequest;
 import com.esdo.bepilot.Model.Response.EmployeeResponse;
 import com.esdo.bepilot.Model.Response.ListEmployeeResponse;
 import com.esdo.bepilot.Service.EmployeeService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ public class EmployeeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     EmployeeResponse createNewEmployee(@RequestBody EmployeeRequest request) {
         return employeeService.createNewEmployee(request);
     }
@@ -26,6 +29,7 @@ public class EmployeeController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     ListEmployeeResponse findAllEmployee(@RequestParam(defaultValue = "1", required = false) Integer page,
                                          @RequestParam(defaultValue = "10", required = false) Integer size,
                                          @RequestParam(required = false) String key) {
@@ -35,6 +39,7 @@ public class EmployeeController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     EmployeeResponse findEmployeeById(@PathVariable(name = "id") Long id) {
         return employeeService.findEmployeeById(id);
     }
@@ -42,6 +47,7 @@ public class EmployeeController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     EmployeeResponse editEmployeeById(@PathVariable(name = "id") Long id, @RequestBody EmployeeRequest request) {
         return employeeService.editEmployeeById(id, request);
     }
@@ -49,6 +55,7 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     String deleteEmployeeById(@PathVariable(name = "id") Long id) {
         employeeService.deleteEmployeeById(id);
         return "Thành công";
